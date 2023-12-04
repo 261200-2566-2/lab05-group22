@@ -1,26 +1,30 @@
 import java.util.Scanner;
 
 interface Job {
-    void performJobAbility();
+    String jobType();
 }
 interface Wizard extends Job{
-    void decreaseMaxHp();
-    void increaseMaxMana();
     void castSpell();
     void healing();
 
 }
 interface Warrior extends Job{
-    void increaseMaxHp();
-    void increaseSpeed();
-    void decreaseMaxMana();
+    void BoostSpeed();
+
+
 }
-public class RPG_character implements Job, Warrior, Wizard{
+public class RPG_character implements Job{
 
     private final String name;
-    private int level;
-    private double BaseSpeed;
-    private double MaxHp,MaxMana,Hp,Mana,Atk,MaxSpeed,current_Speed;
+    protected int level;
+    protected double BaseSpeed;
+    protected double MaxHp;
+    protected double MaxMana;
+    protected double Hp;
+    protected double Mana;
+    private double Atk;
+    protected double MaxSpeed;
+    private double current_Speed;
     private Sword Sword;
     private Shield Shield;
     public RPG_character(String name, int _level, double _BaseSpeed){
@@ -37,6 +41,17 @@ public class RPG_character implements Job, Warrior, Wizard{
         Shield = null;
 
     }
+    public void performJobAbility(Job job) {
+        System.out.println("Performing job ability!");
+        if (job instanceof Wizard_character) {
+            ((Wizard_character) job).castSpell();
+            ((Wizard_character) job).healing();
+        } else if (job instanceof Warrior_character) {
+            ((Warrior_character) job).BoostSpeed();
+        }
+    }
+
+
 
     public void LevelUp(){
         level++;
@@ -94,30 +109,47 @@ public class RPG_character implements Job, Warrior, Wizard{
             System.out.println("I don't know what equipment U want to Unequipped");
         }
     }
-    public void ShowStat(){
+    public void ShowStat() {
         System.out.println("----------------------------------------------------------------");
-        System.out.println(name +" level = " + level);
-        System.out.println(name +" Hp = " + Hp + "/" + MaxHp);
-        System.out.println(name +" Mp = " + Mana + "/" + MaxMana);
-        System.out.println("Sword : " + (Sword != null ? "Sword" + " Lv." + Sword.getLevel() + " Dmg is "+ Sword.getSwordDamage(): "Nothing"));
-        System.out.println("Shield : " + (Shield != null ? "Shield" + " Lv." + Shield.getLevel(): "Nothing"));
-    }
-
-    public void decreaseMaxHp(){
-        MaxHp -= 50;
-        Hp -= 50;
-    }
-    public void increaseMaxMana() {
-        MaxMana += 50;
-        Mana += 50;
+        System.out.println(name + " (" + jobType() + ") - Level " + level);
+        System.out.println("HP: " + Hp + "/" + MaxHp);
+        System.out.println("Mana: " + Mana + "/" + MaxMana);
+        System.out.println("Attack Damage: " + attack());
+        System.out.println("Speed: " + current_Speed);
+        System.out.println("Sword: " + (Sword != null ? "Lv." + Sword.getLevel() + " Damage: " + Sword.getSwordDamage() : "Nothing"));
+        System.out.println("Shield: " + (Shield != null ? "Lv." + Shield.getLevel() : "Nothing"));
     }
 
 
+    @Override
+    public String jobType() {
+        return "I don't know";
+    }
+
+}
+class Wizard_character extends RPG_character implements Wizard {
+
+
+    public Wizard_character(String name, int _level, double _baseSpeed) {
+        super(name, _level, _baseSpeed);
+        MaxHp -= 20;
+        Hp = MaxHp;
+        MaxMana = 100 + 2 * level;
+        Mana = MaxMana;
+        MaxSpeed -= 10;
+    }
+
+    @Override
+    public String jobType() {
+        return "Wizard";
+    }
+
+    @Override
     public void castSpell() {
-        System.out.println("Casting a spell!");
+        //something
     }
 
-
+    @Override
     public void healing() {
         System.out.println("Healing ability activated!");
         if(Hp == MaxHp - 20){
@@ -129,28 +161,32 @@ public class RPG_character implements Job, Warrior, Wizard{
             Hp = MaxHp;
         }
     }
-
-
-
-    public void increaseMaxHp() {
-        MaxHp += 100;
-        Hp += 100;
-    }
-
-
-    public void increaseSpeed() {
-        BaseSpeed += 20;
-    }
-
-
-    public void decreaseMaxMana() {
-        MaxMana -= 10;
-        Mana -= 10;
-    }
-
-    public void performJobAbility() {
-        System.out.println("Performing job ability!");
-    }
-
-
 }
+
+class Warrior_character extends RPG_character implements Warrior {
+    public Warrior_character(String name, int _level, double _baseSpeed) {
+        super(name, _level, _baseSpeed);
+        MaxHp += 50;
+        Hp = MaxHp;
+        MaxSpeed += 10;
+        MaxMana -= 10;
+        Mana = MaxMana;
+    }
+
+    @Override
+    public String jobType() {
+        return "Warrior";
+    }
+
+
+
+    @Override
+    public void BoostSpeed() {
+        BaseSpeed += 10;
+    }
+}
+
+
+
+
+
