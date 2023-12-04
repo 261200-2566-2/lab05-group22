@@ -6,6 +6,11 @@ public class Main {
 
         Wizard_character wizard = new Wizard_character("Gandalf", 5, 20);
         Warrior_character warrior = new Warrior_character("Aragorn", 5, 25);
+        RPG_character adam = new RPG_character("adad",5,10);
+
+//        adam.ShowStat();
+//        adam.beAttacked(wizard.attack());
+//        adam.ShowStat();
 
         boolean exit = false;
 

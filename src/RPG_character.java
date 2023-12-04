@@ -24,7 +24,7 @@ public class RPG_character implements Job{
     protected double Mana;
     private double Atk;
     protected double MaxSpeed;
-    private double current_Speed;
+    protected double current_Speed;
     private Sword Sword;
     private Shield Shield;
     public RPG_character(String name, int _level, double _BaseSpeed){
@@ -41,18 +41,6 @@ public class RPG_character implements Job{
         Shield = null;
 
     }
-    public void performJobAbility(Job job) {
-        System.out.println("Performing job ability!");
-        if (job instanceof Wizard_character) {
-            ((Wizard_character) job).castSpell();
-            ((Wizard_character) job).healing();
-        } else if (job instanceof Warrior_character) {
-            ((Warrior_character) job).BoostSpeed();
-        }
-    }
-
-
-
     public void LevelUp(){
         level++;
         if(Hp == MaxHp){
@@ -137,6 +125,8 @@ class Wizard_character extends RPG_character implements Wizard {
         MaxMana = 100 + 2 * level;
         Mana = MaxMana;
         MaxSpeed -= 10;
+        current_Speed = BaseSpeed;
+
     }
 
     @Override
@@ -146,20 +136,31 @@ class Wizard_character extends RPG_character implements Wizard {
 
     @Override
     public void castSpell() {
-        //something
+        System.out.println("Increasing Mana!");
+        if(Mana == MaxMana - 20){
+            Mana = MaxMana;
+        }else if(Mana < MaxMana-20){
+            Mana += 20;
+        }
     }
 
     @Override
     public void healing() {
         System.out.println("Healing ability activated!");
-        if(Hp == MaxHp - 20){
-            Hp = MaxHp;
+        if(Mana >= 10){
+            if(Hp == MaxHp - 20){
+                Hp = MaxHp;
 
-        }else if(Hp < MaxHp - 20){
-            Hp += 20;
+            }else if(Hp < MaxHp - 20){
+                Hp += 20;
+            }else{
+                Hp = MaxHp;
+            }
         }else{
-            Hp = MaxHp;
+            System.out.println("Your Mana is not Enough!");
         }
+
+        Mana -= 10;
     }
 }
 
@@ -171,6 +172,7 @@ class Warrior_character extends RPG_character implements Warrior {
         MaxSpeed += 10;
         MaxMana -= 10;
         Mana = MaxMana;
+        current_Speed = BaseSpeed;
     }
 
     @Override
@@ -182,7 +184,7 @@ class Warrior_character extends RPG_character implements Warrior {
 
     @Override
     public void BoostSpeed() {
-        BaseSpeed += 10;
+        current_Speed += 15;
     }
 }
 
