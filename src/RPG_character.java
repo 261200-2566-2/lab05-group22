@@ -105,7 +105,7 @@ public class RPG_character implements Job{
         System.out.println("Attack Damage: " + attack());
         System.out.println("Speed: " + current_Speed);
         System.out.println("Sword: " + (Sword != null ? "Lv." + Sword.getLevel() + " Damage: " + Sword.getSwordDamage() : "Nothing"));
-        System.out.println("Shield: " + (Shield != null ? "Lv." + Shield.getLevel() : "Nothing"));
+        System.out.println("Shield: " + (Shield != null ? "Lv." + Shield.getLevel() + " Defense: " + Shield.getShieldDefense() : "Nothing"));
     }
 
 
