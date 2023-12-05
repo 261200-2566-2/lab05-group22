@@ -1,81 +1,35 @@
-import java.util.Scanner;
-
+// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
+// then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        Wizard_character wizard = new Wizard_character("Gandalf", 5, 20);
-        Warrior_character warrior = new Warrior_character("Aragorn", 5, 25);
-        RPG_character adam = new RPG_character("adad",5,10);
-
-//        wizard.LevelUp();
-//        wizard.ShowStat();
-//        wizard.LevelUp();
-//        wizard.ShowStat();
-
-
-//        Sword LightSaber = new Sword(10,10);
-//        wizard.Equip(LightSaber);
-//        wizard.ShowStat();
+        Job Eve = new Wizard("Eve", 1);
+        Job Adam = new Warrior("Muhamed",1);
+        Eve.ShowStat();
+        Sword LightSaber = new Sword("LightSaber",1,99);
+        Shield HolyShield = new Shield("Holy Shield",1,99);
+        Armor Helmet = new Armor("Holy Helmet","Helmet",1, new int[]{10, 2, 15});
+        Armor Chest = new Armor("Holy Chest","Chest",1, new int[]{10, 2, 20});
+        Armor Pant = new Armor("Holy Pant","Pant",1, new int[]{10, 2, 10});
+        Eve.Equip(LightSaber);
+        Eve.Equip(HolyShield);
+        Eve.Equip(Helmet);
+        Eve.Equip(Chest);
+        Eve.Equip(Pant);
+        Eve.ShowStat();
+        Eve.UnEquip(LightSaber);
+        Eve.UnEquip(HolyShield);
+        Eve.ShowStat();
 //        LightSaber.LevelUp();
-//        wizard.ShowStat();
-//
-        Shield woodenShield = new Shield(20,10);
-        warrior.Equip(woodenShield);
-        warrior.ShowStat();
-        woodenShield.Levelup();
-        warrior.ShowStat();
+//        Eve.ShowStat();
+//        Adam.ShowStat();
 
-//      boolean exit = false;
-//
-//        while (!exit) {
-//            System.out.println("-----------------------");
-//            System.out.println("Choose an action:");
-//            System.out.println("1. Show Wizard Stats");
-//            System.out.println("2. Show Warrior Stats");
-//            System.out.println("3. Wizard attacks Warrior");
-//            System.out.println("4. Warrior attacks Wizard");
-//            System.out.println("5. Wizard casts a spell");
-//            System.out.println("6. Wizard heals");
-//            System.out.println("7. Warrior boosts speed");
-//            System.out.println("8. Exit");
-//            System.out.println("-----------------------");
-//            int choice = scanner.nextInt();
-//
-//            switch (choice) {
-//                case 1:
-//                    wizard.ShowStat();
-//                    break;
-//                case 2:
-//                    warrior.ShowStat();
-//                    break;
-//                case 3:
-//                    warrior.beAttacked(wizard.attack());
-//                    System.out.println("Wizard attacks Warrior!");
-//                    break;
-//                case 4:
-//                    wizard.beAttacked(warrior.attack());
-//                    System.out.println("Warrior attacks Wizard!");
-//                    break;
-//                case 5:
-//                    wizard.castSpell();
-//                    break;
-//                case 6:
-//                    wizard.healing();
-//                    break;
-//                case 7:
-//                    warrior.BoostSpeed();
-//                    System.out.println("Warrior boosts speed!");
-//                    break;
-//                case 8:
-//                    exit = true;
-//                    break;
-//                default:
-//                    System.out.println("Invalid choice. Try again.");
-//            }
-//
-//        }
-//
-//        System.out.println("Exiting the program.");
+//        Adam.beAttacked(Eve.attack());
+//        Adam.ShowStat();
+
+
+
+
+
+
     }
 }
