@@ -10,6 +10,9 @@ interface Job_Setting extends Character_Setting {
     double[] Stat();
     void SetStat();
     void Equip(Sword Thing);
+    void Equip(Shield Thing);
+    void Equip(Armor Thing);
+    void Equip(Ring Thing);
 }
 interface Accessories_Setting{
     String name();
