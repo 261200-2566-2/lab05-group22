@@ -22,7 +22,8 @@ class RPG_character implements Character_Setting{
     protected double MaxHp,MaxMana,Hp,Mana,Atk,Def,BaseSpeed,MaxSpeed;
     protected Sword sword;
     protected Shield shield;
-    protected Armor[] armor;;
+    protected Armor[] armor;
+    protected Ring ring;
     public RPG_character(String name,int level){
         this.name = name;
         this.level = level;
@@ -32,6 +33,7 @@ class RPG_character implements Character_Setting{
         for(int i=0;i<3;i++){
             armor[i] = new Armor();
         }
+        ring = new Ring();
     }
     @Override
     public String name() {
@@ -43,7 +45,7 @@ class RPG_character implements Character_Setting{
     }
     @Override
     public void LevelUp() {
-        level++;
+        this.level++;
     }
     public void ShowStat(){
         System.out.println("----------------------------------------------------------------");
@@ -65,6 +67,14 @@ class RPG_character implements Character_Setting{
         Eve.Equip(Pant);
         Eve.ShowStat();
         Eve.UnEquip();
+        Eve.Equip(LightSaber);
+        Eve.ShowStat();
+        Eve.LevelUp();
+        Eve.sword.LevelUp();
+        Eve.ShowStat();
+        Eve.LevelUp();
+        Eve.ShowStat();
+        Eve.LevelUp();
         Eve.ShowStat();
     }
 }
@@ -104,24 +114,25 @@ class Job extends RPG_character implements Job_Setting{
     }
     public void beAttacked(double damage){
         if(!Objects.equals(shield.name, "none")){
-            damage /= (Def + shield.ShieldDefense);
+            damage -= (Def + shield.ShieldDefense)/10;
         }else{
-            damage /= Def;
+            damage -= Def/10;
         }
         Hp = Math.max((Hp - damage), 0);
     }
     @Override
     public void LevelUp() {
+        level++;
         if(Hp == MaxHp){
-            Hp += 10*level;
+            Hp += 10;
         }
         if(Mana == MaxMana){
-            Mana += 2*level;
+            Mana += 2;
         }
-        this.MaxHp +=10*level;
-        this.MaxMana += 2*level;
-        Atk += 4*level;
-        Def += level;
+        this.MaxHp +=10;
+        this.MaxMana += 2;
+        Atk += 4;
+        Def += 1;
         MaxSpeed = BaseSpeed*(0.1+0.03*level);
     }
     @Override
@@ -161,6 +172,14 @@ class Job extends RPG_character implements Job_Setting{
                 break;
         }
     }
+    public void Equip(Ring Thing){
+        if(Objects.equals(Thing.Type, "Ring") && Objects.equals(ring.name, "None")){
+            ring = Thing;
+            UpdateStat("Plus",ring.Rise,ring.Stat);
+        }else{
+            System.out.println("U cant equip " + Thing.name +"!");
+        }
+    }
     public void UpdateStat(String A, int[] stat){
         if (Objects.equals(A, "Plus")){
             if(Hp == MaxHp){
@@ -178,7 +197,24 @@ class Job extends RPG_character implements Job_Setting{
             Def -= stat[2];
         }
     }
-    public void UnEquip(){
+    public void UpdateStat(String A,String B, int stat) {
+        if (Objects.equals(A, "Plus")){
+            switch (B){
+                case "MaxHp" : if(Hp == MaxHp){Hp += stat;}MaxHp += stat;break;
+                case "Atk" : Atk += stat;break;
+                case "MaxSpeed" : MaxSpeed += stat;break;
+                case "Defense" : Def += stat;break;
+            }
+        }else if(Objects.equals(A, "minus")){
+            switch (B){
+                case "MaxHp" : if(Hp == MaxHp){Hp -= stat;}MaxHp -= stat;break;
+                case "Atk" : Atk -= stat;break;
+                case "MaxSpeed" : MaxSpeed -= stat;break;
+                case "Defense" : Def -= stat;break;
+            }
+        }
+    }
+        public void UnEquip(){
         sword = new Sword();
         shield = new Shield();
         UpdateStat("minus",armor[0].Stat);
@@ -187,6 +223,8 @@ class Job extends RPG_character implements Job_Setting{
         armor[1] = new Armor();
         UpdateStat("minus",armor[2].Stat);
         armor[2] = new Armor();
+        UpdateStat("minus",ring.Rise,ring.Stat);
+        ring = new Ring();
     }
     public void ShowStat(){
         System.out.println("----------------------------------------------------------------");
@@ -198,7 +236,7 @@ class Job extends RPG_character implements Job_Setting{
         if(!Objects.equals(armor[0].name, "None")){System.out.println(armor[0].Type + " : " + armor[0].name + " lv." + armor[0].Level);}
         if(!Objects.equals(armor[1].name, "None")){System.out.println(armor[1].Type + " : " + armor[1].name + " lv." + armor[1].Level);}
         if(!Objects.equals(armor[2].name, "None")){System.out.println(armor[2].Type + " : " + armor[2].name + " lv." + armor[2].Level);}
-
+        if(!Objects.equals(ring.name, "None")){System.out.println(ring.Type + " : " + ring.name + " lv." + ring.Level);}
     }
 }
 class Wizard extends Job{
@@ -222,13 +260,13 @@ class Wizard extends Job{
     public void LevelUp() {
         super.LevelUp();
         if(Hp == MaxHp){
-            Hp -= 3*level;
+            Hp -= 3;
         }
         if(Mana == MaxMana){
-            Mana += 4*level;
+            Mana += 4;
         }
-        this.MaxHp -= 3*level;
-        this.MaxMana += 4*level;
+        this.MaxHp -= 3;
+        this.MaxMana += 4;
     }
     public void Healing(){
         if(Mana >= 30){
@@ -264,14 +302,14 @@ class Warrior extends Job{
     public void LevelUp() {
         super.LevelUp();
         if(Hp == MaxHp){
-            Hp += 12*level;
+            Hp += 12;
         }
         if(Mana == MaxMana){
-            Mana += level;
+            Mana += 1;
         }
-        this.MaxHp += 12*level;
-        this.MaxMana += level;
-        this.Def += level;
+        this.MaxHp += 12;
+        this.MaxMana += 1;
+        this.Def += 1;
     }
     public void BoostSpeed(){
         if(Mana >= 20){
@@ -372,5 +410,19 @@ class Armor extends Accessories{
             case "Pant" : this.Type = "Pant";break;
         }
         this.Stat = Stat;
+    }
+}
+class Ring extends Accessories{
+    protected int Stat;
+    protected String Rise;
+    public Ring() {
+        super();
+        this.Type = "Ring";
+    }
+    public Ring(String name,String Rise,int Level,int Stat){
+        super(name,Level);
+        this.Type = "Ring";
+        this.Stat = Stat;
+        this.Rise = Rise;
     }
 }
