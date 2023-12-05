@@ -10,8 +10,6 @@ interface Wizard extends Job{
 }
 interface Warrior extends Job{
     void BoostSpeed();
-
-
 }
 public class RPG_character implements Job{
 
@@ -27,6 +25,8 @@ public class RPG_character implements Job{
     protected double current_Speed;
     private Sword Sword;
     private Shield Shield;
+
+
     public RPG_character(String name, int _level, double _BaseSpeed){
         this.name = name;
         level = _level;
@@ -79,7 +79,7 @@ public class RPG_character implements Job{
     }
     public void Equip(Shield shield){
         if(Shield == null){
-            this.Shield = new Shield(shield.getBaseDefense(),shield.getLevel());
+            this.Shield = shield;
         }else{
             System.out.println("You already equip Shield!!!");
         }
@@ -113,6 +113,7 @@ public class RPG_character implements Job{
     public String jobType() {
         return "I don't know";
     }
+
 
 }
 class Wizard_character extends RPG_character implements Wizard {
@@ -179,16 +180,11 @@ class Warrior_character extends RPG_character implements Warrior {
     public String jobType() {
         return "Warrior";
     }
-
-
-
     @Override
     public void BoostSpeed() {
         current_Speed += 15;
     }
 }
-
-
 
 
 
