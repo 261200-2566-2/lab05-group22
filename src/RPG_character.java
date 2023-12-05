@@ -15,6 +15,8 @@ interface Job_Setting extends Character_Setting {
     void Equip(Armor Thing);
     void Equip(Ring Thing);
     void UnEquip();
+    void UnEquip(Sword Thing);
+    void UnEquip(Shield Thing);
 }
 interface Accessories_Setting{
     String name();
@@ -57,31 +59,23 @@ class RPG_character implements Character_Setting{
         System.out.println("Name : " + name);
         System.out.println("level : " + level);
     }
-    public static void main(String[] args) {
-        Job Eve = new Warrior("Eve", 1);
-        Eve.ShowStat();
-        Sword LightSaber = new Sword("LightSaber",1,99);
-        Shield HolyShield = new Shield("Holy Shield",1,99);
-        Armor Helmet = new Armor("Holy Helmet","Helmet",1, new int[]{10, 2, 15});
-        Armor Chest = new Armor("Holy Chest","Chest",1, new int[]{10, 2, 20});
-        Armor Pant = new Armor("Holy Pant","Pant",1, new int[]{10, 2, 10});
-        Eve.Equip(LightSaber);
-        Eve.Equip(HolyShield);
-        Eve.Equip(Helmet);
-        Eve.Equip(Chest);
-        Eve.Equip(Pant);
-        Eve.ShowStat();
-        Eve.UnEquip();
-        Eve.Equip(LightSaber);
-        Eve.ShowStat();
-        Eve.LevelUp();
-        Eve.sword.LevelUp();
-        Eve.ShowStat();
-        Eve.LevelUp();
-        Eve.ShowStat();
-        Eve.LevelUp();
-        Eve.ShowStat();
-    }
+//    public static void main(String[] args) {
+//        Job Eve = new Warrior("Eve", 1);
+//        Eve.ShowStat();
+//        Sword LightSaber = new Sword("LightSaber",1,99);
+//        Shield HolyShield = new Shield("Holy Shield",1,99);
+//        Armor Helmet = new Armor("Holy Helmet","Helmet",1, new int[]{10, 2, 15});
+//        Armor Chest = new Armor("Holy Chest","Chest",1, new int[]{10, 2, 20});
+//        Armor Pant = new Armor("Holy Pant","Pant",1, new int[]{10, 2, 10});
+//        Eve.Equip(LightSaber);
+//        Eve.Equip(HolyShield);
+//        Eve.Equip(Helmet);
+//        Eve.Equip(Chest);
+//        Eve.Equip(Pant);
+//        Eve.ShowStat();
+//        Eve.UnEquip();
+//        Eve.ShowStat();
+//    }
 }
 class Job extends RPG_character implements Job_Setting{
     protected double[] Stat;
@@ -119,6 +113,7 @@ class Job extends RPG_character implements Job_Setting{
     }
     public void beAttacked(double damage){
         if(!Objects.equals(shield.name, "none")){
+
             damage -= (Def + shield.ShieldDefense)/10;
         }else{
             damage -= Def/10;
@@ -140,6 +135,7 @@ class Job extends RPG_character implements Job_Setting{
         Def += 1;
         MaxSpeed = BaseSpeed*(0.1+0.03*level);
     }
+    @Override
     public void Equip(Sword Thing) {
         if(Objects.equals(Thing.Type, "Weapon-Sword") && Objects.equals(sword.name, "None")){
             sword = Thing;
@@ -184,6 +180,24 @@ class Job extends RPG_character implements Job_Setting{
             System.out.println("U cant equip " + Thing.name +"!");
         }
     }
+
+    public void UnEquip(Sword Thing) {
+        if (Objects.equals(sword.name, Thing.name)) {
+            sword = new Sword();
+        } else {
+            System.out.println("You don't have " + Thing.name + " equipped!");
+        }
+    }
+
+    @Override
+    public void UnEquip(Shield Thing) {
+        if (Objects.equals(shield.name, Thing.name)) {
+            shield = new Shield();
+        } else {
+            System.out.println("You don't have " + Thing.name + " equipped!");
+        }
+    }
+
     public void UpdateStat(String A, int[] stat){
         if (Objects.equals(A, "Plus")){
             if(Hp == MaxHp){
@@ -218,9 +232,13 @@ class Job extends RPG_character implements Job_Setting{
             }
         }
     }
-        public void UnEquip(){
+    public void UnEquip(){
         sword = new Sword();
         shield = new Shield();
+    }
+    public void UnEquipAllArmor(){
+//        sword = new Sword();
+//        shield = new Shield();
         UpdateStat("minus",armor[0].Stat);
         armor[0] = new Armor();
         UpdateStat("minus",armor[1].Stat);
@@ -272,6 +290,7 @@ class Wizard extends Job{
         this.MaxHp -= 3;
         this.MaxMana += 4;
     }
+
     public void Healing(){
         if(Mana >= 30){
             if((Hp+20) >= MaxHp){
@@ -318,6 +337,7 @@ class Warrior extends Job{
     public void BoostSpeed(){
         if(Mana >= 20){
             BaseSpeed *= 2;
+            Mana -= 20;
         }else{
             System.out.println("Not Enough Mp");
         }
