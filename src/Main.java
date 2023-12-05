@@ -25,11 +25,5 @@ public class Main {
 
 //        Adam.beAttacked(Eve.attack());
 //        Adam.ShowStat();
-
-
-
-
-
-
     }
 }
