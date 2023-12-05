@@ -9,10 +9,12 @@ interface Job_Setting extends Character_Setting {
     String Job_type();
     double[] Stat();
     void SetStat();
+    void LevelUp();
     void Equip(Sword Thing);
     void Equip(Shield Thing);
     void Equip(Armor Thing);
     void Equip(Ring Thing);
+    void UnEquip();
 }
 interface Accessories_Setting{
     String name();
@@ -138,7 +140,6 @@ class Job extends RPG_character implements Job_Setting{
         Def += 1;
         MaxSpeed = BaseSpeed*(0.1+0.03*level);
     }
-    @Override
     public void Equip(Sword Thing) {
         if(Objects.equals(Thing.Type, "Weapon-Sword") && Objects.equals(sword.name, "None")){
             sword = Thing;
