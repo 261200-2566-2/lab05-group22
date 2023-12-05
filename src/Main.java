@@ -8,17 +8,18 @@ public class Main {
         Warrior_character warrior = new Warrior_character("Aragorn", 5, 25);
         RPG_character adam = new RPG_character("adad",5,10);
 
-        wizard.LevelUp();
-        wizard.ShowStat();
-        wizard.LevelUp();
-        wizard.ShowStat();
+//        wizard.LevelUp();
+//        wizard.ShowStat();
+//        wizard.LevelUp();
+//        wizard.ShowStat();
 
-        Sword LightSaber = new Sword(10,10);
-        wizard.Equip(LightSaber);
-        wizard.ShowStat();
-        LightSaber.LevelUp();
-        wizard.ShowStat();
 
+//        Sword LightSaber = new Sword(10,10);
+//        wizard.Equip(LightSaber);
+//        wizard.ShowStat();
+//        LightSaber.LevelUp();
+//        wizard.ShowStat();
+//
         Shield woodenShield = new Shield(20,10);
         warrior.Equip(woodenShield);
         warrior.ShowStat();
