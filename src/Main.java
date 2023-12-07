@@ -2,16 +2,28 @@
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.print("Hello and welcome!");
+        Job Eve = new Wizard("Eve", 1);
+        Job Adam = new Warrior("Muhamed",1);
+        Eve.ShowStat();
+        Sword LightSaber = new Sword("LightSaber",1,99);
+        Shield HolyShield = new Shield("Holy Shield",1,99);
+        Armor Helmet = new Armor("Holy Helmet","Helmet",1, new int[]{10, 2, 15});
+        Armor Chest = new Armor("Holy Chest","Chest",1, new int[]{10, 2, 20});
+        Armor Pant = new Armor("Holy Pant","Pant",1, new int[]{10, 2, 10});
+        Eve.Equip(LightSaber);
+        Eve.Equip(HolyShield);
+        Eve.Equip(Helmet);
+        Eve.Equip(Chest);
+        Eve.Equip(Pant);
+        Eve.ShowStat();
+        Eve.UnEquip(LightSaber);
+        Eve.UnEquip(HolyShield);
+        Eve.ShowStat();
+//        LightSaber.LevelUp();
+//        Eve.ShowStat();
+//        Adam.ShowStat();
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
-
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
-        }
+//        Adam.beAttacked(Eve.attack());
+//        Adam.ShowStat();
     }
 }
